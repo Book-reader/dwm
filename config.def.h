@@ -27,7 +27,10 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-	"st", "-n", "scratchpad_window", "htop", NULL,
+	"picom", NULL,
+	"emacs", "--daemon", NULL,
+	"xwallpaper", "--center", "/home/samuel/Pictures/Wallpapers/Wallpapers/arch-rainbow-1920x1080.png", NULL,
+	"alacritty", "--class", "scratchpad_window", "-e", "htop", NULL,
 	COMPILE_DIR"/dwmstatus/dwmstatus", NULL,
 	NULL /* terminate */
 };
@@ -62,7 +65,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -73,14 +76,17 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "j4-dmenu-desktop", "--term", "'alacritty'", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
+
+static const char *emacs[] = { "emacsclient", "-c", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = emacs } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +2 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -2 } },
